@@ -1,0 +1,12 @@
+author: Ricardo SIGNES <rjbs@cpan.org>
+distribution_type: module
+generated_by: Module::Install version 0.64
+license: perl
+name: Perl-Critic-Lax
+no_index: 
+  directory: 
+    - inc
+    - t
+requires: 
+  Perl::Critic: 0.21
+version: 0.001
