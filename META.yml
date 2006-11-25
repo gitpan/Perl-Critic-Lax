@@ -9,4 +9,4 @@ no_index:
     - t
 requires: 
   Perl::Critic: 0.21
-version: 0.003
+version: 0.005
