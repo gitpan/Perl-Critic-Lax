@@ -9,11 +9,13 @@ Perl::Critic::Lax - policies that let you slide on common exceptions
 
 =head1 VERSION
 
-version 0.005
+version 0.006
+
+  $Id: /my/cs/projects/Perl-Critic-Lax/trunk/lib/Perl/Critic/Lax.pm 32194 2007-07-27T23:18:32.278761Z rjbs  $
 
 =cut
 
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 =head1 DESCRIPTION
 
@@ -28,8 +30,7 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006 Ricardo SIGNES, Chris Dolan, Jeffrey Ryan Thalhammer.  All
-rights reserved.
+Copyright (c) 2006 Ricardo SIGNES, Chris Dolan, Jeffrey Ryan Thalhammer.
 
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
