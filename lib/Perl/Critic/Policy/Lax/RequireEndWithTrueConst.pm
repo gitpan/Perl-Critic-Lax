@@ -9,7 +9,7 @@ Perl::Critic::Policy::Lax::RequireEndWithTrueConst
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 DESCRIPTION
 
@@ -32,7 +32,7 @@ Patches welcome.
 use Perl::Critic::Utils;
 use base qw(Perl::Critic::Policy);
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 my $DESCRIPTION = q{Module does not end with true constant};
 my $EXPLANATION = q{Must end with a recognizable true value};
@@ -43,7 +43,7 @@ sub applies_to       { 'PPI::Document' }
 
 sub violates {
   my ($self, $elem, $doc) = @_;
-  return if is_script($doc); #Must be a library or module.
+  return if $doc->is_program; #Must be a library or module.
 
   # Last statement should be a true constant.
   my @significant = grep { _is_code($_) } $doc->schildren();
