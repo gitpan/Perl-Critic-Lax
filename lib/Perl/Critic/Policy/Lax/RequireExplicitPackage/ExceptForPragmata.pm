@@ -1,41 +1,14 @@
 use strict;
 use warnings;
-
 package Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata;
+{
+  $Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata::VERSION = '0.009';
+}
+# ABSTRACT: you can put strict and warnings before "package"
 
-=head1 NAME
-
-Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata
-
-=head1 VERSION
-
-version 0.008
-
-=head1 DESCRIPTION
-
-This policy is meant to replace Modules::RequireExplicitPackage.  That policy's
-POD says:
-
-  In general, the first statement of any Perl module or library should be a
-  package statement.  Otherwise, all the code that comes before the package
-  statement is getting executed in the caller's package, and you have no idea
-  who that is.  Good encapsulation and common decency require your module to
-  keep its innards to itself.
-
-Sure, that's swell for code that has effect at a package level, but
-some statements are lexical.  This policy makes allowance for some of
-those cases.  By default, it permits turning on strictures, warnings,
-features, and diagnostics, as well as requiring a minimum Perl
-version.
-
-=head1 METHODS
-
-=cut
 
 use Perl::Critic::Utils;
-use base qw(Perl::Critic::Policy);
-
-our $VERSION = '0.008';
+use parent qw(Perl::Critic::Policy);
 
 my $EXPLANATION = 'Violates encapsulation';
 my $DESCRIPTION = 'Code (other than strict/warnings) not in explicit package';
@@ -44,18 +17,6 @@ sub default_severity { $SEVERITY_HIGH  }
 sub default_themes   { qw( risky )     }
 sub applies_to       { 'PPI::Document' }
 
-=head2 supported_parameters
-
-The default list of pragmata that are permitted before a C<package>
-declaration can be changed via the C<allowed_pragmata> configuration
-parameter. Its value is a space-separated list of pragma names to be
-permitted.  In this list, the name C<perlversion> is special: it
-allows a C<use 5.xxx> statement.
-
-This module understands the C<exempt_scripts> configuration parameter just like
-L<Perl::Critic::Policy::Modules::RequireExplicitPackage>.
-
-=cut
 
 sub supported_parameters {
   return (
@@ -123,20 +84,56 @@ sub violates {
 1;
 
 __END__
-
 =pod
+
+=head1 NAME
+
+Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata - you can put strict and warnings before "package"
+
+=head1 VERSION
+
+version 0.009
+
+=head1 DESCRIPTION
+
+This policy is meant to replace Modules::RequireExplicitPackage.  That policy's
+POD says:
+
+  In general, the first statement of any Perl module or library should be a
+  package statement.  Otherwise, all the code that comes before the package
+  statement is getting executed in the caller's package, and you have no idea
+  who that is.  Good encapsulation and common decency require your module to
+  keep its innards to itself.
+
+Sure, that's swell for code that has effect at a package level, but
+some statements are lexical.  This policy makes allowance for some of
+those cases.  By default, it permits turning on strictures, warnings,
+features, and diagnostics, as well as requiring a minimum Perl
+version.
+
+=head1 METHODS
+
+=head2 supported_parameters
+
+The default list of pragmata that are permitted before a C<package>
+declaration can be changed via the C<allowed_pragmata> configuration
+parameter. Its value is a space-separated list of pragma names to be
+permitted.  In this list, the name C<perlversion> is special: it
+allows a C<use 5.xxx> statement.
+
+This module understands the C<exempt_scripts> configuration parameter just like
+L<Perl::Critic::Policy::Modules::RequireExplicitPackage>.
 
 =head1 AUTHOR
 
-Ricardo SIGNES <rjbs@cpan.org>
+Ricardo Signes <rjbs@cpan.org>
 
-Adapted from Modules::RequireExplicitPackage by Jeffrey Ryan Thalhammer.
+=head1 COPYRIGHT AND LICENSE
 
-=head1 COPYRIGHT
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
 
-Copyright (c) 2006 Ricardo SIGNES and Jeffrey Ryan Thalhammer.
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+

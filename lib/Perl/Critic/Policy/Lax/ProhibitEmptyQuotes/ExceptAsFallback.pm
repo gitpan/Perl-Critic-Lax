@@ -1,34 +1,14 @@
 use strict;
 use warnings;
-
 package Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback;
+{
+  $Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback::VERSION = '0.009';
+}
+# ABSTRACT: empty quotes are okay as the fallback on the rhs of ||
 
-=head1 NAME
-
-Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback
-
-=head1 DESCRIPTION
-
-Sure, C<""> can be confusing when crammed into the middle of a big list of
-values, and a bunch of spaces is even worse.  It's really common, though, to
-write this code to get a default, false, defined string:
-
-  my $value = $got || '';
-
-It's got a certain charm about it that just isn't manifested by these:
-
-  my $value = $got || $EMPTY;
-  my $value = $got || q{};
-
-This policy prohibits all-whitespace strings constructed by single or double
-quotes, except for the empty string when it follows the high-precedence "or" or "defined or" operators.
-
-=cut
 
 use Perl::Critic::Utils;
-use base qw(Perl::Critic::Policy);
-
-our $VERSION = '0.008';
+use parent qw(Perl::Critic::Policy);
 
 my $DESCRIPTION = q{Quotes used with an empty string, and not as a fallback};
 my $EXPLANATION = "Unless you're using the ||'' idiom, use a quotish form.";
@@ -50,24 +30,49 @@ sub violates {
     return if $prev->isa('PPI::Token::Operator')
            && grep { $prev eq $_ } ('||', '//');
   }
-          
+
   return $self->violation($DESCRIPTION, $EXPLANATION, $element);
 }
 
+1;
+
+__END__
+=pod
+
+=head1 NAME
+
+Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback - empty quotes are okay as the fallback on the rhs of ||
+
+=head1 VERSION
+
+version 0.009
+
+=head1 DESCRIPTION
+
+Sure, C<""> can be confusing when crammed into the middle of a big list of
+values, and a bunch of spaces is even worse.  It's really common, though, to
+write this code to get a default, false, defined string:
+
+  my $value = $got || '';
+
+It's got a certain charm about it that just isn't manifested by these:
+
+  my $value = $got || $EMPTY;
+  my $value = $got || q{};
+
+This policy prohibits all-whitespace strings constructed by single or double
+quotes, except for the empty string when it follows the high-precedence "or" or "defined or" operators.
+
 =head1 AUTHOR
 
-Ricardo SIGNES <rjbs@cpan.org>
+Ricardo Signes <rjbs@cpan.org>
 
-Adapted from ValuesAndExpressions::ProhibitEmptyQuotes by Jeffrey Ryan
-Thalhammer
+=head1 COPYRIGHT AND LICENSE
 
-=head1 COPYRIGHT
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
 
-Copyright (c) 2006 Ricardo Signes and Jeffrey Ryan Thalhammer.
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;

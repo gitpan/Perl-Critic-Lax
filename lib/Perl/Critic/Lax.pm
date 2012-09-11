@@ -1,7 +1,16 @@
 use strict;
 use warnings;
-
 package Perl::Critic::Lax;
+{
+  $Perl::Critic::Lax::VERSION = '0.009';
+}
+# ABSTRACT: policies that let you slide on common exceptions
+
+
+1;
+
+__END__
+=pod
 
 =head1 NAME
 
@@ -9,13 +18,7 @@ Perl::Critic::Lax - policies that let you slide on common exceptions
 
 =head1 VERSION
 
-version 0.008
-
-  $Id$
-
-=cut
-
-our $VERSION = '0.008';
+version 0.009
 
 =head1 DESCRIPTION
 
@@ -26,15 +29,14 @@ maybe there's a Lax policy.  If there isn't, send one in!
 
 =head1 AUTHOR
 
-Ricardo SIGNES <rjbs@cpan.org>
+Ricardo Signes <rjbs@cpan.org>
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2006 Ricardo SIGNES, Chris Dolan, Jeffrey Ryan Thalhammer.
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
 
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;

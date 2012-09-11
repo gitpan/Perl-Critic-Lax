@@ -1,41 +1,14 @@
 use strict;
 use warnings;
-
 package Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire;
+{
+  $Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire::VERSION = '0.009';
+}
+# ABSTRACT: stringy eval is bad, but it's okay just to "require"
 
-=head1 NAME
-
-Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire
-
-=head1 VERSION
-
-version 0.008
-
-=head1 DESCRIPTION
-
-Sure, everybody sane agrees that stringy C<eval> is usually a bad thing, but
-sometimes you need it, and you don't want to have to stick a C<no critic> on
-the end, because dangit, what you are doing is I<just not wrong>!
-
-See, C<require> is busted.  You can't pass it a variable containing the name of
-a module and have it look through C<@INC>.  That has lead to this common idiom:
-
-  eval qq{ require $module } or die $@;
-
-This policy acts just like BuiltinFunctions::ProhibitStringyEval, but makes an
-exception when the content of the string is PPI-parseable Perl that looks
-something like this:
-
-  require $module
-  require $module[2];
-  use $module (); 1;
-
-=cut
 
 use Perl::Critic::Utils;
-use base qw(Perl::Critic::Policy);
-
-our $VERSION = '0.008';
+use parent qw(Perl::Critic::Policy);
 
 my $DESCRIPTION = 'Expression form of "eval" for something other than require';
 my $EXPLANATION = <<'END_EXPLANATION';
@@ -102,18 +75,48 @@ sub violates {
 
 1;
 
+__END__
+=pod
+
+=head1 NAME
+
+Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire - stringy eval is bad, but it's okay just to "require"
+
+=head1 VERSION
+
+version 0.009
+
+=head1 DESCRIPTION
+
+Sure, everybody sane agrees that stringy C<eval> is usually a bad thing, but
+sometimes you need it, and you don't want to have to stick a C<no critic> on
+the end, because dangit, what you are doing is I<just not wrong>!
+
+See, C<require> is busted.  You can't pass it a variable containing the name of
+a module and have it look through C<@INC>.  That has lead to this common idiom:
+
+  eval qq{ require $module } or die $@;
+
+This policy acts just like BuiltinFunctions::ProhibitStringyEval, but makes an
+exception when the content of the string is PPI-parseable Perl that looks
+something like this:
+
+  require $module
+  require $module[2];
+  use $module (); 1;
+
+Then again, maybe you should use L<Module::Runtime>.
+
 =head1 AUTHOR
 
-Ricardo SIGNES <rjbs@cpan.org>
+Ricardo Signes <rjbs@cpan.org>
 
-Adapted from BuiltinFunctions::ProhibitStringyEval by Jeffrey Ryan Thalhammer
+=head1 COPYRIGHT AND LICENSE
 
-=head1 COPYRIGHT
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
 
-This code is copyright 2006, Ricardo SIGNES and Jeffrey Ryan
-Thalhammer.
-
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+

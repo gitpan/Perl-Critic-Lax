@@ -1,40 +1,14 @@
 use strict;
 use warnings;
-
 package Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements;
+{
+  $Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements::VERSION = '0.009';
+}
+# ABSTRACT: prohibit multiline maps, not multistatement maps
 
-=head1 NAME
-
-Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements
-
-=head1 DESCRIPTION
-
-Yes, yes, don't go nuts with map and use it to implement the complex multi-pass
-fnordsort algorithm.  But, come on, guys!  What's wrong with this:
-
-  my @localparts = map { my $addr = $_; $addr =~ s/\@.+//; $addr } @addresses;
-
-Nothing, that's what!
-
-The assumption behind this module is that while the above is okay, the bellow
-is Right Out:
-
-  my @localparts = map {
-    my $addr = $_;
-    $addr =~ s/\@.+//;
-    $addr
-  } @addresses;
-
-Beyond the fact that it's really ugly, it's just a short step from there to a
-few included loop structures and then -- oops! -- a return statement.
-Seriously, people, they're called subroutines.  We've had them since Perl 3.
-
-=cut
 
 use Perl::Critic::Utils;
-use base qw(Perl::Critic::Policy);
-
-our $VERSION = '0.008';
+use parent qw(Perl::Critic::Policy);
 
 my $DESCRIPTION = q{The block given to map should fit on one line.};
 my $EXPLANATION = "If it doesn't fit on one line, turn it into a subroutine.";
@@ -75,19 +49,51 @@ sub violates {
   return $self->violation($DESCRIPTION, $EXPLANATION, $element);
 }
 
+1;
+
+__END__
+=pod
+
+=head1 NAME
+
+Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements - prohibit multiline maps, not multistatement maps
+
+=head1 VERSION
+
+version 0.009
+
+=head1 DESCRIPTION
+
+Yes, yes, don't go nuts with map and use it to implement the complex multi-pass
+fnordsort algorithm.  But, come on, guys!  What's wrong with this:
+
+  my @localparts = map { my $addr = $_; $addr =~ s/\@.+//; $addr } @addresses;
+
+Nothing, that's what!
+
+The assumption behind this module is that while the above is okay, the bellow
+is Right Out:
+
+  my @localparts = map {
+    my $addr = $_;
+    $addr =~ s/\@.+//;
+    $addr
+  } @addresses;
+
+Beyond the fact that it's really ugly, it's just a short step from there to a
+few included loop structures and then -- oops! -- a return statement.
+Seriously, people, they're called subroutines.  We've had them since Perl 3.
+
 =head1 AUTHOR
 
-Ricardo SIGNES <rjbs@cpan.org>
+Ricardo Signes <rjbs@cpan.org>
 
-Adapted from BuiltinFunctions::ProhibitComplexMappings by Chris Dolan.
+=head1 COPYRIGHT AND LICENSE
 
-=head1 COPYRIGHT
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
 
-Copyright (c) 2006 Ricardo Signes and Chris Dolan.
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;

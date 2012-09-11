@@ -1,2 +1,13 @@
 
-This distribution includes more policies for Perl::Critic.
+
+This archive contains the distribution Perl-Critic-Lax,
+version 0.009:
+
+  policies that let you slide on common exceptions
+
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+

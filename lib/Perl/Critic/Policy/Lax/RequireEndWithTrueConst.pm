@@ -1,38 +1,14 @@
 use strict;
 use warnings;
-
 package Perl::Critic::Policy::Lax::RequireEndWithTrueConst;
+{
+  $Perl::Critic::Policy::Lax::RequireEndWithTrueConst::VERSION = '0.009';
+}
+# ABSTRACT: ending your package with a simple, fun true value is okay
 
-=head1 NAME
-
-Perl::Critic::Policy::Lax::RequireEndWithTrueConst
-
-=head1 VERSION
-
-version 0.008
-
-=head1 DESCRIPTION
-
-This policy behaves like L<Perl::Critic::Policy::Modules::RequireEndWithOne>,
-but allows frivolity like ending with C<"Club sandwich">.
-
-The return value must be the final statement of the module.
-
-=head1 WARNINGS
-
-There are I<many> true values that this won't actually accept.  The biggest
-issue is returning lists or other comma-delimited values.  While it would be
-nice to support these, they're not the sort of club sandwich with which I
-usually end my code, so I'm not likely to code the fix myself.
-
-Patches welcome.
-
-=cut
 
 use Perl::Critic::Utils;
-use base qw(Perl::Critic::Policy);
-
-our $VERSION = '0.008';
+use parent qw(Perl::Critic::Policy);
 
 my $DESCRIPTION = q{Module does not end with true constant};
 my $EXPLANATION = q{Must end with a recognizable true value};
@@ -58,7 +34,7 @@ sub violates {
 
 sub _is_true_enough {
   my ($self, $element) = @_;
-  
+
   if ($element->isa('PPI::Statement::Break')) {
     my ($head, @tail) = $element->schildren;
     return unless $head eq 'return';
@@ -99,21 +75,43 @@ sub _is_code {
 
 1;
 
+__END__
 =pod
+
+=head1 NAME
+
+Perl::Critic::Policy::Lax::RequireEndWithTrueConst - ending your package with a simple, fun true value is okay
+
+=head1 VERSION
+
+version 0.009
+
+=head1 DESCRIPTION
+
+This policy behaves like L<Perl::Critic::Policy::Modules::RequireEndWithOne>,
+but allows frivolity like ending with C<"Club sandwich">.
+
+The return value must be the final statement of the module.
+
+=head1 WARNINGS
+
+There are I<many> true values that this won't actually accept.  The biggest
+issue is returning lists or other comma-delimited values.  While it would be
+nice to support these, they're not the sort of club sandwich with which I
+usually end my code, so I'm not likely to code the fix myself.
+
+Patches welcome.
 
 =head1 AUTHOR
 
+Ricardo Signes <rjbs@cpan.org>
 
-Ricardo SIGNES <rjbs@cpan.org>
+=head1 COPYRIGHT AND LICENSE
 
-Adapted from Module::RequireEndWithOne by Chris Dolan
+This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
 
-=head1 COPYRIGHT
-
-Copyright (c) 2006 Ricardo SIGNES, Chris Dolan, Jeffrey Ryan Thalhammer.
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
