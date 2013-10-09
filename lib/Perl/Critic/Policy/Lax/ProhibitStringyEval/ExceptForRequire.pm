@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire;
 {
-  $Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire::VERSION = '0.009';
+  $Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire::VERSION = '0.010';
 }
 # ABSTRACT: stringy eval is bad, but it's okay just to "require"
 
@@ -76,6 +76,7 @@ sub violates {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -84,7 +85,7 @@ Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire - stringy eval 
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 DESCRIPTION
 
@@ -113,10 +114,9 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
