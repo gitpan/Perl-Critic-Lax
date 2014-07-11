@@ -1,11 +1,25 @@
 use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback;
-{
-  $Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback::VERSION = '0.010';
-}
 # ABSTRACT: empty quotes are okay as the fallback on the rhs of ||
-
+$Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback::VERSION = '0.011';
+#pod =head1 DESCRIPTION
+#pod
+#pod Sure, C<""> can be confusing when crammed into the middle of a big list of
+#pod values, and a bunch of spaces is even worse.  It's really common, though, to
+#pod write this code to get a default, false, defined string:
+#pod
+#pod   my $value = $got || '';
+#pod
+#pod It's got a certain charm about it that just isn't manifested by these:
+#pod
+#pod   my $value = $got || $EMPTY;
+#pod   my $value = $got || q{};
+#pod
+#pod This policy prohibits all-whitespace strings constructed by single or double
+#pod quotes, except for the empty string when it follows the high-precedence "or" or "defined or" operators.
+#pod
+#pod =cut
 
 use Perl::Critic::Utils;
 use parent qw(Perl::Critic::Policy);
@@ -40,13 +54,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perl::Critic::Policy::Lax::ProhibitEmptyQuotes::ExceptAsFallback - empty quotes are okay as the fallback on the rhs of ||
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 
@@ -70,7 +86,7 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2014 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

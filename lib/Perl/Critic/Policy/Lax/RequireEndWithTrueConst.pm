@@ -1,11 +1,25 @@
 use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::RequireEndWithTrueConst;
-{
-  $Perl::Critic::Policy::Lax::RequireEndWithTrueConst::VERSION = '0.010';
-}
 # ABSTRACT: ending your package with a simple, fun true value is okay
-
+$Perl::Critic::Policy::Lax::RequireEndWithTrueConst::VERSION = '0.011';
+#pod =head1 DESCRIPTION
+#pod
+#pod This policy behaves like L<Perl::Critic::Policy::Modules::RequireEndWithOne>,
+#pod but allows frivolity like ending with C<"Club sandwich">.
+#pod
+#pod The return value must be the final statement of the module.
+#pod
+#pod =head1 WARNINGS
+#pod
+#pod There are I<many> true values that this won't actually accept.  The biggest
+#pod issue is returning lists or other comma-delimited values.  While it would be
+#pod nice to support these, they're not the sort of club sandwich with which I
+#pod usually end my code, so I'm not likely to code the fix myself.
+#pod
+#pod Patches welcome.
+#pod
+#pod =cut
 
 use Perl::Critic::Utils;
 use parent qw(Perl::Critic::Policy);
@@ -79,13 +93,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perl::Critic::Policy::Lax::RequireEndWithTrueConst - ending your package with a simple, fun true value is okay
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 
@@ -109,7 +125,7 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2014 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

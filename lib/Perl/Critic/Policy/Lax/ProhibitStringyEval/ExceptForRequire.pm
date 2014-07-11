@@ -1,11 +1,30 @@
 use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire;
-{
-  $Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire::VERSION = '0.010';
-}
 # ABSTRACT: stringy eval is bad, but it's okay just to "require"
-
+$Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire::VERSION = '0.011';
+#pod =head1 DESCRIPTION
+#pod
+#pod Sure, everybody sane agrees that stringy C<eval> is usually a bad thing, but
+#pod sometimes you need it, and you don't want to have to stick a C<no critic> on
+#pod the end, because dangit, what you are doing is I<just not wrong>!
+#pod
+#pod See, C<require> is busted.  You can't pass it a variable containing the name of
+#pod a module and have it look through C<@INC>.  That has lead to this common idiom:
+#pod
+#pod   eval qq{ require $module } or die $@;
+#pod
+#pod This policy acts just like BuiltinFunctions::ProhibitStringyEval, but makes an
+#pod exception when the content of the string is PPI-parseable Perl that looks
+#pod something like this:
+#pod
+#pod   require $module
+#pod   require $module[2];
+#pod   use $module (); 1;
+#pod
+#pod Then again, maybe you should use L<Module::Runtime>.
+#pod
+#pod =cut
 
 use Perl::Critic::Utils;
 use parent qw(Perl::Critic::Policy);
@@ -34,7 +53,8 @@ sub _arg_is_ok {
 
   # We only allow {require} and {require;number}
   return if @children > 2;
-  return unless $children[0]->isa('PPI::Statement::Include');
+  return unless defined $children[0]
+             && $children[0]->isa('PPI::Statement::Include');
 
   # We could give up if the Include's second child isn't a Symbol, but... eh!
 
@@ -79,13 +99,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perl::Critic::Policy::Lax::ProhibitStringyEval::ExceptForRequire - stringy eval is bad, but it's okay just to "require"
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 
@@ -114,7 +136,7 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2014 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

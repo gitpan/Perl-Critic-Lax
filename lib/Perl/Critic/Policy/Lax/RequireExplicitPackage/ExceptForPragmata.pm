@@ -1,11 +1,26 @@
 use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata;
-{
-  $Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata::VERSION = '0.010';
-}
 # ABSTRACT: you can put strict and warnings before "package"
-
+$Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata::VERSION = '0.011';
+#pod =head1 DESCRIPTION
+#pod
+#pod This policy is meant to replace Modules::RequireExplicitPackage.  That policy's
+#pod POD says:
+#pod
+#pod   In general, the first statement of any Perl module or library should be a
+#pod   package statement.  Otherwise, all the code that comes before the package
+#pod   statement is getting executed in the caller's package, and you have no idea
+#pod   who that is.  Good encapsulation and common decency require your module to
+#pod   keep its innards to itself.
+#pod
+#pod Sure, that's swell for code that has effect at a package level, but
+#pod some statements are lexical.  This policy makes allowance for some of
+#pod those cases.  By default, it permits turning on strictures, warnings,
+#pod features, and diagnostics, as well as requiring a minimum Perl
+#pod version.
+#pod
+#pod =cut
 
 use Perl::Critic::Utils;
 use parent qw(Perl::Critic::Policy);
@@ -17,6 +32,18 @@ sub default_severity { $SEVERITY_HIGH  }
 sub default_themes   { qw( risky )     }
 sub applies_to       { 'PPI::Document' }
 
+#pod =method supported_parameters
+#pod
+#pod The default list of pragmata that are permitted before a C<package>
+#pod declaration can be changed via the C<allowed_pragmata> configuration
+#pod parameter. Its value is a space-separated list of pragma names to be
+#pod permitted.  In this list, the name C<perlversion> is special: it
+#pod allows a C<use 5.xxx> statement.
+#pod
+#pod This module understands the C<exempt_scripts> configuration parameter just like
+#pod L<Perl::Critic::Policy::Modules::RequireExplicitPackage>.
+#pod
+#pod =cut
 
 sub supported_parameters {
   return (
@@ -87,13 +114,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata - you can put strict and warnings before "package"
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 
@@ -131,7 +160,7 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2014 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

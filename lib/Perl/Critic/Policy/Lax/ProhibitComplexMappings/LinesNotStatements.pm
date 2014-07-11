@@ -1,11 +1,31 @@
 use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements;
-{
-  $Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements::VERSION = '0.010';
-}
 # ABSTRACT: prohibit multiline maps, not multistatement maps
-
+$Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements::VERSION = '0.011';
+#pod =head1 DESCRIPTION
+#pod
+#pod Yes, yes, don't go nuts with map and use it to implement the complex multi-pass
+#pod fnordsort algorithm.  But, come on, guys!  What's wrong with this:
+#pod
+#pod   my @localparts = map { my $addr = $_; $addr =~ s/\@.+//; $addr } @addresses;
+#pod
+#pod Nothing, that's what!
+#pod
+#pod The assumption behind this module is that while the above is okay, the bellow
+#pod is Right Out:
+#pod
+#pod   my @localparts = map {
+#pod     my $addr = $_;
+#pod     $addr =~ s/\@.+//;
+#pod     $addr
+#pod   } @addresses;
+#pod
+#pod Beyond the fact that it's really ugly, it's just a short step from there to a
+#pod few included loop structures and then -- oops! -- a return statement.
+#pod Seriously, people, they're called subroutines.  We've had them since Perl 3.
+#pod
+#pod =cut
 
 use Perl::Critic::Utils;
 use parent qw(Perl::Critic::Policy);
@@ -55,13 +75,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perl::Critic::Policy::Lax::ProhibitComplexMappings::LinesNotStatements - prohibit multiline maps, not multistatement maps
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 
@@ -91,7 +113,7 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2014 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

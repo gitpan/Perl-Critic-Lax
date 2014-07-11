@@ -1,11 +1,21 @@
 use strict;
 use warnings;
 package Perl::Critic::Policy::Lax::ProhibitLeadingZeros::ExceptChmod;
-{
-  $Perl::Critic::Policy::Lax::ProhibitLeadingZeros::ExceptChmod::VERSION = '0.010';
-}
 # ABSTRACT: leading zeroes are okay as the first arg to chmod
-
+$Perl::Critic::Policy::Lax::ProhibitLeadingZeros::ExceptChmod::VERSION = '0.011';
+#pod =head1 DESCRIPTION
+#pod
+#pod This is a stupid mistake:
+#pod
+#pod   my $x = 1231;
+#pod   my $y = 2345;
+#pod   my $z = 0032;
+#pod
+#pod This is not:
+#pod
+#pod   chmod 0600, "secret_file.txt";
+#pod
+#pod =cut
 
 use Perl::Critic::Utils;
 use parent qw(Perl::Critic::Policy);
@@ -44,13 +54,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perl::Critic::Policy::Lax::ProhibitLeadingZeros::ExceptChmod - leading zeroes are okay as the first arg to chmod
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 DESCRIPTION
 
@@ -70,7 +82,7 @@ Ricardo Signes <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo Signes <rjbs@cpan.org>.
+This software is copyright (c) 2014 by Ricardo Signes <rjbs@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
